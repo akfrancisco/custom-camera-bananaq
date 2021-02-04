@@ -8,12 +8,17 @@ import 'package:path_provider/path_provider.dart';
 class CameraWithOverlay extends StatefulWidget{
   List<CameraDescription> cameras;
 
+
+
+
   @override
   State createState() => _CameraWithOverlayState();
 }
 
 class _CameraWithOverlayState extends State<CameraWithOverlay>{
   CameraController controller;
+  String filepath = '';
+
 
   @override
   void initState() {
@@ -68,13 +73,15 @@ class _CameraWithOverlayState extends State<CameraWithOverlay>{
     );
   }
 
-  Future<String> _captureImage() async {
+  Future<void> _captureImage() async {
     var temp = await getTemporaryDirectory();
     String path = '${temp.path}/${DateTime.now()}.png';
     var xfile = await controller.takePicture();
     xfile.saveTo(path);
 
-    return path;
+    filepath = path;
+    Navigator.pop(context,path);
+
   }
 
 
